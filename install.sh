@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+if [ -d $PWD/old_config ]; then
+	echo -e "\e[31mConfigs are already installed\e[39m"
+	exit 1
+fi
+
+
 install() 
 {
 	echo "Beginning $1 install..."
@@ -73,7 +79,7 @@ cp_old_conf()
 		file="${list_conf_file_location[$i]}""${list_conf_file[$i]}"
 		folder="${list_command[$i]}"
 		if [ -f $HOME/$file ]; then
-			echo -e "\e[32mcopying $HOME/$file into $PWD/$folder"
+			echo -e "\e[32mcopying $HOME/$file into $PWD/$folder\e[39m"
 			if [ ! -d $PWD/$folder ]; then
 				mkdir $PWD/$folder
 			fi
