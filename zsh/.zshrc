@@ -12,7 +12,7 @@ export ZSH="/home/alexis/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 
 # You can find more standard plugins in ~/.oh-my-zsh/plugins/*
-plugins=(git)
+plugins=(git colored-man-pages)
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
