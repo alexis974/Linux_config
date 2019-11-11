@@ -8,10 +8,11 @@
 # Path to your oh-my-zsh installation.                                          
 export ZSH="/home/alexis/.oh-my-zsh"
 
-#Launch oh-my-zsh
-source $ZSH/oh-my-zsh.sh
-
+# You can find more standard themes in ~/.oh-my-zsh/themes/*
 ZSH_THEME="robbyrussell"
+
+# You can find more standard plugins in ~/.oh-my-zsh/plugins/*
+plugins=(git)
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -19,8 +20,7 @@ ZSH_THEME="robbyrussell"
 # Uncomment the following line to display dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
 
-# You can find more standard plugins in ~/.oh-my-zsh/plugins/*
-plugins=(git)
+source $ZSH/oh-my-zsh.sh
 
 
 ##===========================================================================##
