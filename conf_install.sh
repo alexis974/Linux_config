@@ -5,7 +5,7 @@ install()
 	echo "Beginning $1 install..."
 	if [ -f /etc/debian_version ]; then
 		echo "we have detected that your os is based on debian"
-		packet="apt-get"
+		packet="apt-get install -y"
 	elif [ -f /etc/arch-release ]; then
 		echo "we have detected that your os is based on arch"
 		packet="pacman -Suy"
