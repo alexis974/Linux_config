@@ -22,13 +22,14 @@ install()
 	fi
 };
 
+
 declare -a list_command
-list_command=("bash" "zsh" "neofetch" "i3" "vim")
+list_command=("bash" "zsh" "neofetch" "i3")
 
-check()
+
+#Check if the required module are install and install them if not"
+check_requirements()
 {
-
-	#Check if the required module are install and install them if not"
 	for com in "${list_command[@]}"
 	do
 		if command -v $com; then
@@ -51,34 +52,62 @@ check()
 	done
 };
 
+
 declare -a list_conf_file
-list_conf_file=(".bashrc" ".zshrc" ".config/neofetch/config.conf"
-				".config/i3/config" ".vimrc")
+list_conf_file_location=("" "" ".config/neofetch/" ".config/i3/")
+
+declare -a list_conf_file
+list_conf_file=(".bashrc" ".zshrc" "config.conf" "config")
+
+#Copy current config file to old_config folder
 cp_old_conf()
 {
 
-	mkdir old_config
+	if [ ! -d $PWD/old_config ]; then
+		mkdir old_config
+	fi
 	cd old_config
 
-	for i in "${!list_conf_file[@]}"
+	for i in "${!list_conf_file_location[@]}"
 	do
-		file="${list_conf_file[$i]}"
+		file="${list_conf_file_location[$i]}""${list_conf_file[$i]}"
 		folder="${list_command[$i]}"
 		if [ -f $HOME/$file ]; then
 			echo -e "\e[32mcopying $HOME/$file into $PWD/$folder"
-			mkdir $PWD/$folder
+			if [ ! -d $PWD/$folder ]; then
+				mkdir $PWD/$folder
+			fi
 			cp $HOME/$file $PWD/$folder
 		else
-			echo -e "\e[31m$HOME/$file does not exit"
-			echo "Please install what is needed in order to have a $file file"
+			echo -e "\e[31mCan't find $HOME/$file. File does not exist\e[39m"
+			exit 1
+		fi
+	done
+
+	cd ..
+};
+
+#Create symbolic link for the config files
+set_up_conf()
+{
+	for i in "${!list_conf_file_location[@]}"
+	do
+		file="${list_conf_file_location[$i]}""${list_conf_file[$i]}"
+		folder="${list_command[$i]}"
+		if [[ -f $HOME/$file && ! -L $HOME/$file ]]; then
+			echo "Removing: $HOME/$file"
+			rm $HOME/$file
+		fi
+		
+		if [ ! -L $HOME/$file ]; then
+			ln -s $PWD/$folder/"${list_conf_file[$i]}" $HOME/$file
+			echo -e "\e[96mSymbolic link created for "${list_command[$i]}"\e[39m"
+		else
+			echo -e "\e[96mSymbolic link alreay exist for "${list_command[$i]}"\e[39m"
 		fi
 	done
 };
 
-check
+check_requirements
 cp_old_conf
-
-
-tree -a 
-cd ..
-rm -rf old_config
+set_up_conf
