@@ -38,7 +38,7 @@ check_requirements()
 {
 	for com in "${list_command[@]}"
 	do
-		if command -v $com; then
+		if command -v $com > /dev/null 2>&1; then
 			echo -e "[\e[32mOK\e[39m] $com"
 		else
 			echo -e "[\e[31mKO\e[39m] $com"
@@ -65,41 +65,34 @@ list_conf_file_location=("" "" ".config/neofetch/" ".config/i3/")
 declare -a list_conf_file
 list_conf_file=(".bashrc" ".zshrc" "config.conf" "config")
 
-#Copy current config file to old_config folder
-cp_old_conf()
-{
+declare -i nb_config_file
+nb_config_file="${#list_conf_file[@]}"
 
+#Copy current config file to old_config folder
+#Delete current config file
+#Create symbolic link for the new config files
+set_up_conf()
+{
 	if [ ! -d $PWD/old_config ]; then
 		mkdir old_config
 	fi
-	cd old_config
 
-	for i in "${!list_conf_file_location[@]}"
+	for ((i=0; i<${nb_config_file}; i++))
 	do
 		file="${list_conf_file_location[$i]}""${list_conf_file[$i]}"
 		folder="${list_command[$i]}"
+
 		if [ -f $HOME/$file ]; then
-			echo -e "\e[32mcopying $HOME/$file into $PWD/$folder\e[39m"
-			if [ ! -d $PWD/$folder ]; then
-				mkdir $PWD/$folder
+			echo -e "\e[32mCopying $HOME/$file into $PWD/old_config/$folder\e[39m"
+			if [ ! -d $PWD/old_config/$folder ]; then
+				mkdir $PWD/old_config/$folder
 			fi
-			cp $HOME/$file $PWD/$folder
+			cp $HOME/$file $PWD/old_config/$folder
 		else
 			echo -e "\e[31mCan't find $HOME/$file. File does not exist\e[39m"
 			exit 1
 		fi
-	done
 
-	cd ..
-};
-
-#Create symbolic link for the config files
-set_up_conf()
-{
-	for i in "${!list_conf_file_location[@]}"
-	do
-		file="${list_conf_file_location[$i]}""${list_conf_file[$i]}"
-		folder="${list_command[$i]}"
 		if [[ -f $HOME/$file && ! -L $HOME/$file ]]; then
 			echo "Removing: $HOME/$file"
 			rm $HOME/$file
@@ -115,5 +108,4 @@ set_up_conf()
 };
 
 check_requirements
-cp_old_conf
 set_up_conf
