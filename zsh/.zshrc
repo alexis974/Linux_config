@@ -14,10 +14,10 @@ ZSH_THEME="robbyrussell"
 # You can find more standard plugins in ~/.oh-my-zsh/plugins/*
 plugins=(git colored-man-pages)
 
-# Uncomment the following line to use case-sensitive completion.
+# Uncomment the following line to use case-sensitive completion
 # CASE_SENSITIVE="true"
 
-# Uncomment the following line to display dots whilst waiting for completion.
+# Uncomment the following line to display dots whilst waiting for completion
 # COMPLETION_WAITING_DOTS="true"
 
 source $ZSH/oh-my-zsh.sh
@@ -48,35 +48,38 @@ neofetch --ascii_distro arch
 #                               *** ALIAS ***                                 #
 ##===========================================================================##
 
-#Edit configuration file
-alias i3conf='vim ~/.config/i3/config'
-alias zshconf='vim ~/.zshrc'
-alias bashconf='vim ~/.bashrc'
-alias vimconf='vim ~/.vimrc'
+# Configuration file
+alias bashconf='vim ~/.bashrc'  # Edit bash config file
+alias zshconf='vim ~/.zshrc'  # Edit zsh config file
+alias i3conf='vim ~/.config/i3/config'  # Edit i3 config file
+alias vimconf='vim ~/.vimrc'  # Edit vim config file
+alias neoconf='vim ~/.config/neofetch/config.conf'  # Edit neofetch config file
 
-#System
-alias wifi='nmcli dev wifi' #Show all available wifi
+# System
+alias wifi='nmcli dev wifi'  # Show all available wifi
+alias install='sudo pacman -Suy'  # Install on arch base distro
+alias update='sudo pacman -Syu'  # Update arch base distro
+# Active dual screen on i3. This may not work on all computer
 alias screen='xrandr --output HDMI-2 --mode 1920x1080 --same-as eDP-1'
 
-#Terminal
-alias install='sudo pacman -Suy'
-alias c='clear'
-alias la='ls -all'
-alias q='exit'
+# Terminal
+alias c='clear'  # Clear current terminal tab
+alias la='ls -all'  # Display list of file with all information
+alias q='exit'  # Exit terminal
 alias ..='cd ..'
-alias sl='ls'
-alias h='history'
+alias sl='ls'  # Avoid spelling mistake
+alias h='history'  # Show history
+alias cp="cp -i"  # Confirm before overwriting something
 
-#Git
+# Git
 alias gst='git status'
 alias ga='git add *'
 alias gc='git commit -m'
 alias gp='git push'
 alias g='git'
-alias coolog='git log --graph --decorate'
-alias update='sudo pacman -Syu'
+alias coolog='git log --graph --decorate'  # Nice display of git log
 
-#C
+# C
 alias ccomp='gcc -Wall -Wextra -Werror -std=c99 -O1 -o'
 
 
