@@ -59,6 +59,7 @@ alias neoconf='vim ~/.config/neofetch/config.conf'  # Edit neofetch config file
 alias wifi='nmcli dev wifi'  # Show all available wifi
 alias install='sudo pacman -Suy'  # Install on arch base distro
 alias update='sudo pacman -Syu'  # Update arch base distro
+alias remove='sudo pacman -Rcns'
 # Active dual screen on i3. This may not work on all computer
 alias screen='xrandr --output HDMI-2 --mode 1920x1080 --same-as eDP-1'
 
