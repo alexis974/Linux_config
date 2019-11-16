@@ -9,7 +9,7 @@ declare -a list_package
 
 if [ -f /etc/debian_version ]; then
 	echo "$str Debian"
-	package_manager="apt-get install -y"
+	package_manager="apt install -y"
 	list_package=("git" "vim" "wget" "curl" "zsh" "neofetch" "i3" "evince" 
 		"thunar" "darktable" "vlc" "firefox"
 		"chromium-browser" "okular" "gimp" "htop" "audacity" "steam" "geany"
