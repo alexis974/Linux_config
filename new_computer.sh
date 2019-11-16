@@ -6,18 +6,19 @@ str="OS detected:"
 declare -a list_package
 
 #Detect current Os distro
+
 if [ -f /etc/debian_version ]; then
 	echo "$str Debian"
 	package_manager="apt-get install -y"
 	list_package=("git" "vim" "wget" "curl" "zsh" "neofetch" "i3" "evince" 
-		"thunar" "darktable" "discord" "spotify" "vlc" "firefox"
+		"thunar" "darktable" "vlc" "firefox"
 		"chromium-browser" "okular" "gimp" "htop" "audacity" "steam" "geany"
 		"ranger")
 elif [ -f /etc/arch-release ]; then
 	echo "$str Arch"
 	package_manager="pacman -Suy --noconfirm"
 	list_package=("git" "vim" "wget" "curl" "zsh" "neofetch" "i3" "evince" 
-		"thunar" "darktable" "discord" "spotify" "vlc" "firefox" "chromium"
+		"thunar" "darktable" "vlc" "firefox" "chromium"
 		"okular" "gimp" "htop" "audacity" "steam" "geany" "ranger")
 else
 	echo -e "\e[31Your distro not supported for now"
