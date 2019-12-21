@@ -33,9 +33,9 @@ detect_distro()
 user_display()
 {
 	if [ $1 -eq 0 ]; then
-		printf "[\e[$1mOK\e[0m] \e[$1m$3\e[0m\n"
-		printf "[\e[$1mOK\e[0m] \e[$1m$3\e[0m\n" >> tmp.txt
-	elif [ $1 -eq 1]; then
+		printf "[\e[$2mOK\e[0m] \e[$2m$3\e[0m\n"
+		printf "[\e[$2mOK\e[0m] \e[$2m$3\e[0m\n" >> tmp.txt
+	elif [ $1 -eq 1 ]; then
 		printf "[\e[$2mOK\e[0m] \e[$2m$3 (NEW)\e[0m\n"
 		printf "[\e[$2mOK\e[0m] \e[$2m$3 (NEW)\e[0m\n" >> tmp.txt
 	else
