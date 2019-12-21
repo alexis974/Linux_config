@@ -14,7 +14,7 @@ if [ -f /etc/debian_version ]; then
 	list_package=("git" "vim" "snap" "wget" "curl" "zsh" "neofetch" "i3" "evince"
 		"thunar" "darktable" "vlc" "firefox"
 		"chromium-browser" "okular" "gimp" "htop" "audacity" "steam" "geany"
-		"ranger" "zathura" "amixer")
+		"ranger" "zathura" "amixer" "feh")
 	printf "\e[96mBeginning system update\e[0m\n"
 	sudo apt update
 	sudo apt upgrade
@@ -24,7 +24,8 @@ elif [ -f /etc/arch-release ]; then
 	package_manager="pacman -S --noconfirm"
 	list_package=("git" "vim" "snap" "wget" "curl" "zsh" "neofetch" "i3" "evince"
 		"thunar" "darktable" "vlc" "firefox" "chromium"	"okular" "gimp" "htop"
-		"audacity" "steam" "geany" "ranger" "zathura" "emacs" "nautilus" "amixer")
+		"audacity" "steam" "geany" "ranger" "zathura" "emacs" "nautilus"
+		"amixer" "feh")
 	printf "\e[96mBeginning system update\e[0m\n"
 	sudo pacman -Syu
 	printf "\e[96mEnd of update\e[0m\n\n"
