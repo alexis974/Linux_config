@@ -5,7 +5,7 @@
 #                                *** ZSH ***                                  #
 ##===========================================================================##
 
-# Path to your oh-my-zsh installation.                                          
+# Path to your oh-my-zsh installation.
 export ZSH="/home/alexis/.oh-my-zsh"
 
 # You can find more standard themes in ~/.oh-my-zsh/themes/*
