@@ -30,33 +30,46 @@ detect_distro()
 	fi
 }
 
+user_display()
+{
+	if [ $1 -eq 0 ]; then
+		printf "[\e[$1mOK\e[0m] \e[$1m$3\e[0m\n"
+		printf "[\e[$1mOK\e[0m] \e[$1m$3\e[0m\n" >> tmp.txt
+	elif [ $1 -eq 1]; then
+		printf "[\e[$2mOK\e[0m] \e[$2m$3 (NEW)\e[0m\n"
+		printf "[\e[$2mOK\e[0m] \e[$2m$3 (NEW)\e[0m\n" >> tmp.txt
+	else
+		printf "\e[$2mCould not install $3\e[0m\n"
+	fi
+}
+
 
 #Check if the required module are install and install them if not"
 install_package()
 {
 	if [[ "$update" == 'True' ]]; then
-		$sys_update_cmd
+		$sys_update_cmd > /dev/null 2>&1
+		printf "[\e[32mOK\e[0m] \e[32mSystem update successful\e[0m\n"
+
 	fi
 
 	for package in "${list2[@]}"
 	do
 		if command -v $package > /dev/null 2>&1; then
-			printf "[\e[32mOK\e[0m] \e[32m$package\e[0m\n"
-			printf "[\e[32mOK\e[0m] \e[32m$package\e[0m\n" >> tmp.txt
+			user_display 0 32 $package
 		else
-			printf "[\e[31mKO\e[0m] \e[31m$package\e[0m\n"
+			user_display 0 31 $package
 			printf "\e[96m$package has not been found. Starting installation...\n"
-			sudo $package_manager $package #> /dev/null 2>&1
+			$package_manager $package > /dev/null 2>&1
+
 			if [ $package = "zsh" ]; then
 				sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 			fi
 
 			if command -v $package > /dev/null 2>&1; then
-				printf "[\e[32mOK\e[0m] \e[32m$package (NEW)\e[0m\n"
-				printf "[\e[32mOK\e[0m] \e[32m$package (NEW)\e[0m\n" >> tmp.txt
+				user_display 1 32 $package
 			else
-				printf "\e[31mCould not install $package\e[0m\n"
-				printf "[\e[31mKO\e[0m] \e[31m$package\e[0m\n" >> tmp.txt
+				user_display 2 31 $package
 			fi
 
 		fi
@@ -90,7 +103,7 @@ main()
 {
 	# Test if the script have root rights
 	if  [ ! ${EUID:-$(id -u)} -eq 0 ]; then
-		printf "\e[31mYou must use 'sudo ./new_computer.sh' \e[0m\n"
+		printf "\e[31mYou must run 'sudo ./new_computer.sh'\e[0m\n"
 		exit 1
     fi
 
