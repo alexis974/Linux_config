@@ -6,7 +6,7 @@ if [ -d $PWD/old_config ]; then
 fi
 
 
-install() 
+install()
 {
 	echo "Beginning $1 install..."
 	str="OS detected:"
@@ -97,7 +97,7 @@ set_up_conf()
 			echo "Removing: $HOME/$file"
 			rm $HOME/$file
 		fi
-		
+
 		if [ ! -L $HOME/$file ]; then
 			ln -s $PWD/$folder/"${list_conf_file[$i]}" $HOME/$file
 			echo -e "\e[96mSymbolic link created for "${list_command[$i]}"\e[39m"
@@ -106,6 +106,23 @@ set_up_conf()
 		fi
 	done
 };
+
+
+mkdir background
+wget --output-document=Firewatch.jpg https://i.imgur.com/b2VoMCYg.jpg
+if [ -f Firewatch.jpg ]; then
+    convert Firewatch.jpg Firewatch.png
+	rm Firewatch.jpg
+    mv Firewatch.png background/Firewatch.png
+fi
+wget --output-document=Firewatch_lock.jpg https://i.imgur.com/MqeXsvkg.jpg
+if [ -f Firewatch_lock.jpg ]; then
+    convert Firewatch_lock.jpg Firewatch_lock.png
+	rm Firewatch_lock.jpg
+    mv Firewatch_lock.png background/Firewatch_lock.png
+fi
+
+
 
 check_requirements
 set_up_conf

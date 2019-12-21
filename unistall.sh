@@ -5,6 +5,9 @@ if [ ! -d $PWD/old_config ]; then
 	echo -e "\e[31mCan not uninstall without previous config files\e[39m"
 	exit 1
 fi
+if [ ! -d $PWD/background ]; then
+	rm -rf background
+fi
 
 
 declare -a list_command
