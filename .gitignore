@@ -1,0 +1,6 @@
+# Script used to test small part of my code independently
+tst.sh
+
+# Image file
+*.png
+*.jpg
