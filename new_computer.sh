@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#Detect current Os distro
+#Detect current Os distro and set package name
 detect_distro()
 {
 	str="OS detected:"
@@ -30,54 +30,8 @@ detect_distro()
 	fi
 }
 
-user_display()
-{
-	if [ $1 -eq 0 ]; then
-		printf "[\e[$2mOK\e[0m] \e[$2m$3\e[0m\n"
-		printf "[\e[$2mOK\e[0m] \e[$2m$3\e[0m\n" >> tmp.txt
-	elif [ $1 -eq 1 ]; then
-		printf "[\e[$2mKO\e[0m] \e[$2m$3 (NEW)\e[0m\n"
-		printf "[\e[$2mKO\e[0m] \e[$2m$3 (NEW)\e[0m\n" >> tmp.txt
-	else
-		printf "\e[$2mCould not install $3\e[0m\n"
-	fi
-}
 
-
-#Check if the required module are install and install them if not"
-install_package()
-{
-	if [[ "$update" == 'True' ]]; then
-		$sys_update_cmd > /dev/null 2>&1
-		printf "[\e[32mOK\e[0m] \e[32mSystem update successful\e[0m\n"
-
-	fi
-
-	for package in "${list2[@]}"
-	do
-		if command -v $package > /dev/null 2>&1; then
-			user_display 0 32 $package
-		else
-			user_display 0 31 $package
-			printf "\e[96m$package has not been found. Starting installation...\n"
-			$package_manager $package > /dev/null 2>&1
-
-			if [ $package = "zsh" ]; then
-				sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-			fi
-
-			if command -v $package > /dev/null 2>&1; then
-				user_display 1 32 $package
-			else
-				user_display 2 31 $package
-			fi
-
-		fi
-	done
-}
-
-
-#"bool package name, pac name, pa man..."
+# Create the list of package that the user want to install
 create_package_list()
 {
 	read -p "Do you want to update you computer ? (yes/no): " input
@@ -91,12 +45,81 @@ create_package_list()
 	do
 		read -p "Do you want to install $package ? (yes/no): " input
 		if [[ $input == [yY] || $input == [yY][eE][sS] ]]; then
-			list2+=($package)
+			wanted_package+=($package)
 		fi
 	done
 }
 
 
+# Used in the log.txt file to separate package installation clearly
+pretty_print_package()
+{
+    length=$((80 - ${#1}))
+
+    printf "\n\n"
+    for (( i=1; i < $length; i++ ))
+    do
+        if [ $i -eq $(($length - 3)) ]; then
+            printf "$1"
+        fi
+        printf "%s" "-"
+    done
+    printf "\n"
+}
+
+
+#Check if the required module are install and install them if not"
+install_package()
+{
+	if [[ "$update" == 'True' ]]; then
+		pretty_print_package "Sys_Update" >> new_computer_log.txt
+		$sys_update_cmd >> new_computer_log.txt
+		printf "[\e[32mOK\e[0m] \e[32mSystem update successful\e[0m\n"
+
+	fi
+
+	for package in "${wanted_package[@]}"
+	do
+		if command -v $package > /dev/null 2>&1; then
+			printf "[\e[32mOK\e[0m] \e[32m$package\e[0m\n"
+		else
+			pretty_print_package "$package" >> new_computer_log.txt
+			$package_manager $package >> new_computer_log.txt
+
+			if [ $package = "zsh" ]; then
+				sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+			fi
+
+			if command -v $package > /dev/null 2>&1; then
+				printf "[\e[96mOK\e[0m] \e[96m$package (NEW)\e[0m\n"
+			else
+				printf "[\e[31mKO\e[0m] \e[31m$package\e[0m\n"
+			fi
+
+		fi
+	done
+}
+
+
+# Check if all the wanted package have been install
+check_installation()
+{
+	is_fine=0
+	for package in "${wanted_package[@]}"
+	do
+		if ! command -v $package > /dev/null 2>&1; then
+			is_fine=1
+			break
+		fi
+	done
+
+	if [[ $is_fine -eq 0 ]]; then
+		printf "\e[96m\e[4m\nInstallation done!\e[0m\n"
+	else
+		printf "\e[31mOne of the package could not be installed. '\e[0m"
+		printf "\e[31mPlease refer to the log.txt file'\e[0m\n"
+	fi
+}
 
 
 main()
@@ -106,27 +129,23 @@ main()
 		printf "\e[31mYou must run 'sudo ./new_computer.sh'\e[0m\n"
 		exit 1
     fi
+	if [ -f new_computer_log.txt ]; then
+		rm -rf new_computer_log.txt
+	fi
 
 	clear
-
 	printf "\e[96m\e[4mStarting installation:\e[0m\n"
-
 	printf "\e[96mDetecting distro : \e[0m"
 	declare -a list_package
 	detect_distro
 
 	printf "\e[96mPlease choose what package you want to install :\e[0m\n"
-	declare -a list2
+	declare -a wanted_package
 	create_package_list
 
 	printf "\e[96m\e[4m\nBegin package install:\e[0m\n"
 	install_package
-
-
-	printf "\n\e[96m\e[4mInstallation summary:\e[0m\n"
-	cat tmp.txt
-	rm tmp.txt
+	check_installation
 }
 
 main
-
