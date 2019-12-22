@@ -36,8 +36,8 @@ user_display()
 		printf "[\e[$2mOK\e[0m] \e[$2m$3\e[0m\n"
 		printf "[\e[$2mOK\e[0m] \e[$2m$3\e[0m\n" >> tmp.txt
 	elif [ $1 -eq 1 ]; then
-		printf "[\e[$2mOK\e[0m] \e[$2m$3 (NEW)\e[0m\n"
-		printf "[\e[$2mOK\e[0m] \e[$2m$3 (NEW)\e[0m\n" >> tmp.txt
+		printf "[\e[$2mKO\e[0m] \e[$2m$3 (NEW)\e[0m\n"
+		printf "[\e[$2mKO\e[0m] \e[$2m$3 (NEW)\e[0m\n" >> tmp.txt
 	else
 		printf "\e[$2mCould not install $3\e[0m\n"
 	fi
@@ -119,7 +119,7 @@ main()
 	declare -a list2
 	create_package_list
 
-	printf "\e[96m\nBegin package install:\e[0m\n"
+	printf "\e[96m\e[4m\nBegin package install:\e[0m\n"
 	install_package
 
 
