@@ -4,3 +4,6 @@ tst.*
 # Image file
 *.png
 *.jpg
+
+# Log file
+*log*.*
