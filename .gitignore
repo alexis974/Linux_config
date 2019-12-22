@@ -1,5 +1,5 @@
 # Script used to test small part of my code independently
-tst.sh
+tst.*
 
 # Image file
 *.png
