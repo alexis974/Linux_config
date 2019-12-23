@@ -59,7 +59,7 @@ detect_distro()
 	elif [ -f /etc/arch-release ]; then
 		echo "$str Arch"
 		package_manager="pacman -S --noconfirm"
-		sys_update_cmd="pacman -Syu"
+		sys_update_cmd="pacman -Syu --noconfirm"
 
 		list_package=("git" "vim" "snap" "wget" "curl" "zsh" "neofetch" "i3" "evince"
 			"thunar" "darktable" "vlc" "firefox" "chromium"	"okular" "gimp" "htop"
