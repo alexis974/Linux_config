@@ -51,20 +51,20 @@ detect_distro()
 		package_manager="apt install -y"
 		sys_update_cmd="apt update && apt upgrade"
 
-		list_package=("git" "vim" "snap" "wget" "curl" "zsh" "neofetch" "i3" "evince"
-			"thunar" "darktable" "vlc" "firefox"
-			"chromium-browser" "okular" "gimp" "htop" "audacity" "steam" "geany"
-			"ranger" "zathura" "amixer" "feh")
+		list_package=("git" "vim" "snap" "wget" "curl" "neofetch" "i3"
+			"evince" "thunar" "darktable" "vlc" "firefox" "chromium-browser"
+			"okular" "gimp" "htop" "audacity" "steam" "geany" "ranger"
+			"zathura" "amixer" "feh" "zsh")
 
 	elif [ -f /etc/arch-release ]; then
 		echo "$str Arch"
 		package_manager="pacman -S --noconfirm"
 		sys_update_cmd="pacman -Syu --noconfirm"
 
-		list_package=("git" "vim" "snap" "wget" "curl" "zsh" "neofetch" "i3" "evince"
-			"thunar" "darktable" "vlc" "firefox" "chromium"	"okular" "gimp" "htop"
-			"audacity" "steam" "geany" "ranger" "zathura" "emacs" "nautilus"
-			"amixer" "feh")
+		list_package=("git" "vim" "snap" "wget" "curl" "neofetch" "i3" "evince"
+			"thunar" "darktable" "vlc" "firefox" "chromium"	"okular" "gimp"
+			"htop" "audacity" "steam" "geany" "ranger" "zathura" "emacs"
+			"nautilus" "amixer" "feh" "zsh")
 
 	else
 		echo -e "\e[31Your distro not supported for now"
