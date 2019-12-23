@@ -176,7 +176,9 @@ main()
 	fi
 
 	clear
-	printf "\e[96m\e[4mStarting installation:\e[0m\n"
+	printf "\e[96m\e[4mStarting installation\e[0m"
+	sleep 0.5; printf "."; sleep 0.5; printf "."
+	sleep 0.5; printf ".\n"; sleep 0.5
 	printf "\e[96mDetecting distro : \e[0m"
 	declare -a list_package
 	detect_distro
