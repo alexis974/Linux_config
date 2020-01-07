@@ -14,7 +14,7 @@ Plugin 'vim-airline/vim-airline-themes' " Theme for vim-airline
 "Plugin 'preservim/nerdtree'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'delimiMate'
+Plugin 'Raimondi/delimitMate'
 
 call vundle#end()
 
@@ -47,7 +47,7 @@ filetype plugin indent on " Load filetype-specific indent files
 set colorcolumn=80
 
 set nocompatible " Removed compatibility with VI
-set encoding=uft-8
+set encoding=utf-8
 
 "
 ""============================================================================""
@@ -92,4 +92,3 @@ map <F10> :call ToggleNumber() <CR>
 " NERDTree
 map <C-n> :NERDTreeFocus <CR>
 map <C-m> :NERDTreeClose <CR>
-
