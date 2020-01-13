@@ -8,6 +8,7 @@ set encoding=utf-8 " Use an encoding that supports unicode.
 " Helps force plugins to load correctly when it is turned back on below
 filetype off
 filetype plugin indent on " Load filetype-specific indent files
+set updatetime=100 " Set vim update time to 100ms instead of the default 4sec
 
 
 ""============================================================================""
@@ -26,6 +27,8 @@ Plugin 'preservim/nerdtree'
 "Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'Raimondi/delimitMate' " Automaticly close [{()}]
+Plugin 'kbarrette/mediummode'
+Plugin 'airblade/vim-gitgutter'
 
 call vundle#end()
 
@@ -88,6 +91,8 @@ noremap j h
 map <C-n> :NERDTreeFocus <CR>
 
 " Add usefull shortcut in the F key
+" Open a terminal
+map <F2> :below terminal ++rows=15<CR>
 " Save and exit
 map <F4> :x <CR>
 " Remove all trailling space
