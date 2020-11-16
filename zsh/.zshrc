@@ -79,9 +79,10 @@ alias gc='git commit -m'
 alias gp='git push'
 alias g='git'
 alias coolog='git log --graph --decorate'  # Nice display of git log
+alias gitcount='git rev-list --all --count'
 
 # C
-alias ccomp='gcc -Wall -Wextra -Werror -std=c99 -O1 -o'
+alias ccomp='gcc -Wextra -Wall -Werror -std=c99 -pedantic'
 
 
 ##===========================================================================##
@@ -90,9 +91,41 @@ alias ccomp='gcc -Wall -Wextra -Werror -std=c99 -O1 -o'
 
 # Git quick: gq name_of_commit
 gq() {
-	git status
-	git add -A
-	git commit -m "$1"
-	git push
-	git status
+    git status
+    git add -A
+    git commit -m "$1"
+    git push
+    git status
 };
+
+# Git commit tag: gcomtag <name of commit> <name of tag>
+gcomtag() {
+    git commit -m "$1"
+    sleep 4;
+    git tag -a "$2" -m "$1"
+    git push --follow-tags
+};
+
+# Create a header for c file: create_h <name of .h> <name of .h in maj + _H>
+create_h() {
+    touch "$1".h
+    echo "#ifndef "$2"" >> "$1".h
+    echo "#define "$2"" >> "$1".h
+    echo "" >> "$1".h
+    echo "#endif /* ! "$2" */" >> "$1".h
+};
+
+# Create an executable bash script: create_sh <name of script>
+create_sh() {
+    touch "$1".sh
+    chmod +x "$1".sh
+    echo "#!/bin/sh" > "$1".sh
+    vim "$1.sh"
+};
+
+
+##===========================================================================##
+#                             *** OTHERS ***                                  #
+##===========================================================================##
+
+alias matrix='cmatrix -C red -u 9'
