@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 ##===========================================================================##
 #                                *** ZSH ***                                  #
 ##===========================================================================##
@@ -37,6 +36,10 @@ source $ZSH/oh-my-zsh.sh
 # Set keyboard layout to standart us with capslock replace with escape
 setxkbmap us -option caps:escape
 
+# Different keybord
+alias us='setxkbmap us -option caps:escape'
+alias int='setxkbmap -layout us -variant intl -option caps:escape'
+
 # Make vim you default editor
 export EDITOR=vim
 
@@ -56,12 +59,9 @@ alias vimconf='vim ~/.vimrc'  # Edit vim config file
 alias neoconf='vim ~/.config/neofetch/config.conf'  # Edit neofetch config file
 
 # System
-alias wifi='nmcli dev wifi'  # Show all available wifi
 alias install='sudo pacman -Suy'  # Install package on arch base distro
 alias update='sudo pacman -Syu'  # Update package on arch base distro
 alias remove='sudo pacman -Rcns'  # Remove package on arch base distro
-# Active dual screen on i3. This may not work on all computer
-alias screen='xrandr --output HDMI-2 --mode 1920x1080 --same-as eDP-1'
 
 # Terminal
 alias c='clear'  # Clear current terminal tab
@@ -83,13 +83,16 @@ alias gitcount='git rev-list --all --count'
 
 # C
 alias ccomp='gcc -Wextra -Wall -Werror -std=c99 -pedantic'
+alias val='valgrind --leak-check=full --errors-for-leak-kinds=definite --error-exitcode=42 -q'
+alias make='make -j16'
 
 
 ##===========================================================================##
 #                             *** FUNCTION ***                                #
 ##===========================================================================##
 
-# Git quick: gq name_of_commit
+# Git quick
+# Usage : gq <name_of_commit>
 gq() {
     git status
     git add -A
@@ -98,7 +101,8 @@ gq() {
     git status
 };
 
-# Git commit tag: gcomtag <name of commit> <name of tag>
+# Git commit tag
+# Usage : gcomtag <name of commit> <name of tag>
 gcomtag() {
     git commit -m "$1"
     sleep 4;
@@ -106,7 +110,8 @@ gcomtag() {
     git push --follow-tags
 };
 
-# Create a header for c file: create_h <name of .h> <name of .h in maj + _H>
+# Create a header for c file:
+# Usage : create_h <name of .h> <name of .h in maj + _H>
 create_h() {
     touch "$1".h
     echo "#ifndef "$2"" >> "$1".h
@@ -115,7 +120,8 @@ create_h() {
     echo "#endif /* ! "$2" */" >> "$1".h
 };
 
-# Create an executable bash script: create_sh <name of script>
+# Create an executable bash script
+# Usage : create_sh <name of script>
 create_sh() {
     touch "$1".sh
     chmod +x "$1".sh
@@ -128,4 +134,9 @@ create_sh() {
 #                             *** OTHERS ***                                  #
 ##===========================================================================##
 
+# A cool display on the terminal
 alias matrix='cmatrix -C red -u 9'
+
+##===========================================================================##
+#                                *** END ***                                  #
+##===========================================================================##
