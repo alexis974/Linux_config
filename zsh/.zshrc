@@ -130,6 +130,38 @@ create_sh() {
     vim "$1.sh"
 };
 
+gitme() {
+    PWD_SAVE="$PWD"
+    while ! [ -d ".git" ] && [ "$PWD" != "/" ]; do
+        cd ..
+    done
+
+    if [ "$PWD" = '/' ]; then
+        echo "Not a git directory"
+        cd $PWD_SAVE
+        return 1
+    fi
+
+    AUTHOR=$(grep "name = " ~/.gitconfig | awk '{print $3, $4}')
+
+    COMMIT_BY_AUTHOR=$(git log | grep --count -i "Author: $AUTHOR")
+    TOTAL_COMMIT=$(git rev-list --all --count)
+    PERCENT=$((COMMIT_BY_AUTHOR*100/TOTAL_COMMIT))
+    echo "You've made $COMMIT_BY_AUTHOR commits out of $TOTAL_COMMIT ($PERCENT%)"
+
+    AUTHOR_SUM=0
+    TOTAL_SUM=0
+    for file in $(git ls-files); do
+        TOTAL_CURRENT=$(git blame "$file" | awk '{print $2, $3}' | grep -c "")
+        AUTHOR_CURRENT=$(git blame "$file" | awk '{print $2, $3}' | grep -ci "$AUTHOR")
+        TOTAL_SUM=$((TOTAL_SUM+TOTAL_CURRENT))
+        AUTHOR_SUM=$((AUTHOR_SUM+AUTHOR_CURRENT))
+    done
+    PERCENT=$((AUTHOR_SUM*100/TOTAL_SUM))
+    echo "You've have written $AUTHOR_SUM lines out of $TOTAL_SUM ($PERCENT%)"
+    cd $PWD_SAVE
+};
+
 
 ##===========================================================================##
 #                             *** OTHERS ***                                  #
