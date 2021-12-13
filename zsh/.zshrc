@@ -130,6 +130,7 @@ create_sh() {
     vim "$1.sh"
 };
 
+# Usage : gitme [<Authors full name>]
 gitme() {
     PWD_SAVE="$PWD"
     while ! [ -d ".git" ] && [ "$PWD" != "/" ]; do
@@ -142,7 +143,11 @@ gitme() {
         return 1
     fi
 
-    AUTHOR=$(grep "name = " ~/.gitconfig | awk '{print $3, $4}')
+    if ! [ -z "$1" ]; then
+        AUTHOR="$1"
+    else
+        AUTHOR=$(grep "name = " ~/.gitconfig | awk '{print $3, $4}')
+    fi
 
     COMMIT_BY_AUTHOR=$(git log | grep --count -i "Author: $AUTHOR")
     TOTAL_COMMIT=$(git rev-list --all --count)
