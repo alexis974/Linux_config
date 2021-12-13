@@ -83,8 +83,9 @@ alias gitcount='git rev-list --all --count'
 
 # C
 alias ccomp='gcc -Wextra -Wall -Werror -std=c99 -pedantic'
+alias cxx='g++ -Wall -Wextra -Werror -pedantic -std=c++17 -O3 -fsanitize=address -g'
 alias val='valgrind --leak-check=full --errors-for-leak-kinds=definite --error-exitcode=42 -q'
-alias make='make -j16'
+alias make='make -j'
 
 
 ##===========================================================================##
